@@ -9,9 +9,9 @@ const BuscaUsuarioScreen = () => {
   const handleBusca = async () => {
     try {
       const response = await buscaUsuario(Number(id));
-      setUsuario(response.data);
+      setUsuario(response); // Atribui diretamente o objeto de resposta
     } catch (error) {
-      Alert.alert("Erro", "Não foi possível buscar o usuário");
+      Alert.alert("Erro", "Não foi possível buscar o usuário.");
     }
   };
 
@@ -29,6 +29,20 @@ const BuscaUsuarioScreen = () => {
         <View style={styles.result}>
           <Text>Nome: {usuario.nome}</Text>
           <Text>CPF: {usuario.cpf}</Text>
+          <Text>Emprestimos:</Text>
+          {Array.isArray(usuario.emprestimosLivros) &&
+          usuario.emprestimosLivros.length > 0 ? (
+            usuario.emprestimosLivros.map((emprestimo: any) => (
+              <View key={emprestimo.id} style={styles.emprestimoItem}>
+                <Text>Emprestimo ID: {emprestimo.id}</Text>
+                <Text>Livro ID: {emprestimo.livro.id}</Text>
+                <Text>Livro Título: {emprestimo.livro.titulo}</Text>
+                <Text>Livro Ano: {emprestimo.livro.anoPublicacao}</Text>
+              </View>
+            ))
+          ) : (
+            <Text>Nenhum empréstimo encontrado</Text>
+          )}
         </View>
       )}
     </View>
@@ -51,6 +65,11 @@ const styles = StyleSheet.create({
   result: {
     marginTop: 16,
   },
+  emprestimoItem: {
+    paddingLeft: 16,
+    paddingTop: 8,
+  },
 });
 
 export default BuscaUsuarioScreen;
+  

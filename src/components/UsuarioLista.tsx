@@ -9,9 +9,14 @@ const UsuarioLista = () => {
     const fetchUsuarios = async () => {
       try {
         const response = await listarUsuarios();
-        setUsuarios(response.data);
+        if (Array.isArray(response)) {
+          console.log("Dados recebidos da API:", response);
+          setUsuarios(response);
+        } else {
+          console.error("Response não é uma array:", response);
+        }
       } catch (error) {
-        console.error(error);
+        console.error("Erro ao buscar usuários:", error);
       }
     };
 
@@ -25,8 +30,22 @@ const UsuarioLista = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text>{item.nome}</Text>
-            <Text>{item.cpf}</Text>
+            <Text>ID: {item.id}</Text>
+            <Text>Nome: {item.nome}</Text>
+            <Text>CPF: {item.cpf}</Text>
+            <Text>Emprestimos:</Text>
+            {Array.isArray(item.emprestimosLivros) ? (
+              item.emprestimosLivros.map((emprestimo: any) => (
+                <View key={emprestimo.id} style={styles.emprestimoItem}>
+                  <Text>Emprestimo ID: {emprestimo.id}</Text>
+                  <Text>Livro ID: {emprestimo.livro.id}</Text>
+                  <Text>Livro Título: {emprestimo.livro.titulo}</Text>
+                  <Text>Livro Ano: {emprestimo.livro.anoPublicacao}</Text>
+                </View>
+              ))
+            ) : (
+              <Text>Nenhum empréstimo encontrado</Text>
+            )}
           </View>
         )}
       />
@@ -43,6 +62,10 @@ const styles = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+  },
+  emprestimoItem: {
+    paddingLeft: 16,
+    paddingTop: 8,
   },
 });
 

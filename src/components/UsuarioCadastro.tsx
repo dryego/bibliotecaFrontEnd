@@ -9,9 +9,15 @@ const UsuarioCadastro = () => {
   const handleCadastro = async () => {
     try {
       const response = await cadastroUsuario({ nome, cpf });
-      Alert.alert("Sucesso", response.data);
-    } catch (error) {
-      Alert.alert("Erro", "Erro ao cadastrar usuário");
+      Alert.alert("Sucesso", response);
+      setNome("");
+      setCpf("");
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        Alert.alert("Erro", error.response.data);
+      } else {
+        Alert.alert("Erro", "Erro ao cadastrar usuário");
+      }
     }
   };
 

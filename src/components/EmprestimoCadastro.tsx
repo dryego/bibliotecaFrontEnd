@@ -15,6 +15,8 @@ const EmprestimoCadastro = () => {
         idLivro: idLivroNum,
       });
       Alert.alert("Sucesso", response.data);
+      setIdLivro("");
+      setIdUsuario("");
     } catch (error) {
       Alert.alert("Erro", "Erro ao cadastrar Emprestimo");
     }

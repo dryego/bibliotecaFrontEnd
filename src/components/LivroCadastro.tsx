@@ -3,20 +3,27 @@ import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { cadastroLivro } from "../api/LivroApi";
 
 const LivroCadastro = () => {
-  const [id, setId] = useState('');
+  const [id, setId] = useState("");
   const [titulo, setTitulo] = useState("");
   const [anoPublicacao, setAnoPublicacao] = useState("");
 
   const handleCadastro = async () => {
-        const anoPublicacaoNum = parseInt(anoPublicacao, 10);
-        const idNumero = parseInt(id,10)
-        if (isNaN(anoPublicacaoNum)) {
-          Alert.alert("Erro", "Ano de Publicação deve ser um número");
-          return;
-        }
+    const anoPublicacaoNum = parseInt(anoPublicacao, 10);
+    const idNumero = parseInt(id, 10);
+    if (isNaN(anoPublicacaoNum)) {
+      Alert.alert("Erro", "Ano de Publicação deve ser um número");
+      return;
+    }
     try {
-      const response = await cadastroLivro({ id: idNumero, titulo, anoPublicacao: anoPublicacaoNum });
+      const response = await cadastroLivro({
+        id: idNumero,
+        titulo,
+        anoPublicacao: anoPublicacaoNum,
+      });
       Alert.alert("Sucesso", response.data);
+      setId("");
+      setTitulo("");
+      setAnoPublicacao("");
     } catch (error) {
       Alert.alert("Erro", "Erro ao cadastrar Livro");
     }
@@ -58,7 +65,9 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 12,
-    padding: 10,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF",
   },
 });
 

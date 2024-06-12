@@ -10,6 +10,7 @@ const DevolverEmprestimo = () => {
     try {
       const response = await devolverEmprestimo(idNum);
       Alert.alert("Sucesso", response.data);
+      setId("")
     } catch (error) {
       Alert.alert("Erro", "Erro ao devolver Emprestimo");
     }
@@ -19,7 +20,7 @@ const DevolverEmprestimo = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="ID Usuário"
+        placeholder="ID do Empréstimo"
         value={id}
         onChangeText={setId}
         keyboardType="numeric"
@@ -38,7 +39,9 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 12,
-    padding: 10,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF",
   },
 });
 

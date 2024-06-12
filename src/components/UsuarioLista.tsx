@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
+import { View, Text, FlatList, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { listarUsuarios } from "../api/UsuarioApi";
 
 const UsuarioLista = () => {
   const [usuarios, setUsuarios] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -16,75 +17,21 @@ const UsuarioLista = () => {
         }
       } catch (error) {
         console.error("Erro ao buscar usuários:", error);
+      } finally{
+        setLoading(false)
       }
     };
 
     fetchUsuarios();
   }, []);
 
-  //   return (
-  //     <View style={styles.container}>
-  //       <FlatList
-  //         data={usuarios}
-  //         keyExtractor={(item) => item.id.toString()}
-  //         renderItem={({ item }) => (
-  //           <View style={styles.item}>
-  //             <View style={styles.itemTextContainer}>
-  //             <Text>ID: {item.id}</Text>
-  //             <Text>Nome: {item.nome}</Text>
-  //             <Text>CPF: {item.cpf}</Text>
-  //             <Text>Emprestimos:</Text>
-  //             </View>
-  //             {Array.isArray(item.emprestimosLivros) ? (
-  //               item.emprestimosNaoEntregues.map((emprestimo: any) => (
-  //                 <View key={emprestimo.id} style={styles.emprestimoItem}>
-  //                   <View style={styles.emprestimoItem}>
-  //                   <Text>Emprestimo ID: {emprestimo.id}</Text>
-  //                   <Text>Data Entrega: {emprestimo.dataEntrega}</Text>
-  //                   </View>
-  //                 </View>
-  //               ))
-  //             ) : (
-  //               <Text>Nenhum empréstimo encontrado</Text>
-  //             )}
-  //           </View>
-  //         )}
-  //       />
-  //     </View>
-  //   );
-  // };
-
-  // const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     padding: 16,
-  //   },
-  //   item: {
-  //     flexDirection: "row",
-  //     justifyContent: "space-between",
-  //     alignItems: "center",
-  //     padding: 16,
-  //     borderBottomWidth: 1,
-  //     borderBottomColor: "#ccc",
-  //     backgroundColor: "#f9f9f9",
-  //     borderRadius: 8,
-  //     marginBottom: 8,
-  //   },
-  //   emprestimoItem: {
-  //     flexDirection: "row",
-  //     justifyContent: "space-between",
-  //     alignItems: "center",
-  //     padding: 16,
-  //     borderBottomWidth: 1,
-  //     borderBottomColor: "#ccc",
-  //     backgroundColor: "#f9f9f9",
-  //     borderRadius: 8,
-  //     marginBottom: 8,
-  //   },
-  //   itemTextContainer: {
-  //     flex: 1,
-  //   },
-  // });
+   if (loading) {
+     return (
+       <View style={styles.loadingContainer}>
+         <ActivityIndicator size="large" color="#0000ff" />
+       </View>
+     );
+   }
 
   const renderEmprestimos = (emprestimos: any[]) => {
     return emprestimos.map((emprestimo) => (
@@ -133,6 +80,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#F5F5F5",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   item: {
     padding: 16,

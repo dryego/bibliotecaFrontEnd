@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Button, Alert } from "react-native";
+import { View, Text, FlatList, StyleSheet, Button, Alert, ActivityIndicator } from "react-native";
 import { listarEmprestimo, devolverEmprestimo } from "../api/EmprestimoApi";
 
 // Defina a interface para o objeto Emprestimo
@@ -11,6 +11,7 @@ interface Emprestimo {
 
 const UsuarioLista = () => {
   const [emprestimos, setEmprestimos] = useState<Emprestimo[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchEmprestimos = async () => {
@@ -19,6 +20,8 @@ const UsuarioLista = () => {
         setEmprestimos(response.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -44,6 +47,14 @@ const UsuarioLista = () => {
       Alert.alert("Erro", "Não foi possível devolver o empréstimo.");
     }
   };
+
+   if (loading) {
+     return (
+       <View style={styles.loadingContainer}>
+         <ActivityIndicator size="large" color="#0000ff" />
+       </View>
+     );
+   }
 
   const renderItem = ({ item }: { item: Emprestimo }) => (
     <View style={styles.item}>
@@ -79,6 +90,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   item: {
     flexDirection: "row",

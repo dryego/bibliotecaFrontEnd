@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from "react-native";
 import { listarLivros } from "../api/LivroApi";
+//import { ActivityIndicator } from "react-native-paper";
 
 const LivroLista = () => {
   const [livros, setLivro] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLivro = async () => {
@@ -12,11 +14,21 @@ const LivroLista = () => {
         setLivro(response.data);
       } catch (error) {
         console.error(error);
+      } finally{
+        setLoading(false);  
       }
     };
 
     fetchLivro();
   }, []);
+
+  if(loading){
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size={"large"} color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -41,6 +53,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   item: {
     flexDirection: "row",

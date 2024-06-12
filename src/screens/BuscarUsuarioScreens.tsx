@@ -9,7 +9,15 @@ const BuscaUsuarioScreen = () => {
   const handleBusca = async () => {
     try {
       const response = await buscaUsuario(Number(id));
-      setUsuario(response); // Atribui diretamente o objeto de resposta
+      if (response) {
+        setUsuario(response);
+      } else {
+        setUsuario(null);
+        Alert.alert(
+          "Usuário não localizado",
+          "O usuário com o ID informado não foi encontrado."
+        );
+      }
     } catch (error) {
       Alert.alert("Erro", "Não foi possível buscar o usuário.");
     }
@@ -32,12 +40,10 @@ const BuscaUsuarioScreen = () => {
           <Text>Emprestimos:</Text>
           {Array.isArray(usuario.emprestimosLivros) &&
           usuario.emprestimosLivros.length > 0 ? (
-            usuario.emprestimosLivros.map((emprestimo: any) => (
+            usuario.emprestimosNaoEntregues.map((emprestimo: any) => (
               <View key={emprestimo.id} style={styles.emprestimoItem}>
                 <Text>Emprestimo ID: {emprestimo.id}</Text>
-                <Text>Livro ID: {emprestimo.livro.id}</Text>
-                <Text>Livro Título: {emprestimo.livro.titulo}</Text>
-                <Text>Livro Ano: {emprestimo.livro.anoPublicacao}</Text>
+                <Text>Data Entrega: {emprestimo.dataEntrega}</Text>
               </View>
             ))
           ) : (
@@ -72,4 +78,3 @@ const styles = StyleSheet.create({
 });
 
 export default BuscaUsuarioScreen;
-  

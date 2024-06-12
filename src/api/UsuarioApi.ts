@@ -1,7 +1,8 @@
 import axios from "axios";
+import API_URL  from "../util/DefineURL";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/usuario",
+  baseURL: `${API_URL}/usuario`,
 });
 
 export const buscaUsuario = async (id: number) => {

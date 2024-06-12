@@ -1,7 +1,8 @@
 import axios from "axios";
+import API_URL from "../util/DefineURL";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/emprestimo",
+  baseURL: `${API_URL}/emprestimo`,
 });
 
 export const buscaEmprestimo = async (id: number) => {
@@ -15,8 +16,8 @@ export const listarEmprestimo = async () => {
 };
 
 export const cadastroEmprestimo = async (emprestimo: {
-  idUsuario: number,
-  idLivro: number,
+  idUsuario: number;
+  idLivro: number;
 }) => {
   const response = await api.post("/cadastro", emprestimo);
   return response;

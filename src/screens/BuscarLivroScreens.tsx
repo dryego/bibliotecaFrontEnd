@@ -29,7 +29,8 @@ const BuscaLivroScreens = () => {
         <View style={styles.result}>
           <Text>ID: {livro.id}</Text>
           <Text>Titulo: {livro.titulo}</Text>
-          <Text>Ano publicação: {livro.anoPublicacao}</Text>
+          <Text>Ano da publicação: {livro.anoPublicacao}</Text>
+          <Text>Emprestimos: {livro.EmprestimosLivro}</Text>
         </View>
       )}
     </View>

@@ -25,9 +25,11 @@ const LivroLista = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text>{item.id}</Text>
-            <Text>{item.titulo}</Text>
-            <Text>{item.anoPublicacao}</Text>
+            <View style={styles.itemTextContainer}>
+            <Text>ID: {item.id}</Text>
+            <Text>Titulo: {item.titulo}</Text>
+            <Text>Ano da Publicação: {item.anoPublicacao}</Text>
+            </View>
           </View>
         )}
       />
@@ -41,9 +43,18 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   item: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    backgroundColor: "#f9f9f9",
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  itemTextContainer: {
+    flex: 1,
   },
 });
 
